@@ -20,9 +20,9 @@ DeepLab models are pre-trained on the COCO-stuff and PASCAL VOC datasets and fin
 ## Basic Resources
 1. To see Google's deeplab, you can visit the tensorflow's library. Specifically, in "models/research/deeplab"
 
-2. To create a dataset for Deeplab, you can refer to this SOP: https://gitlab.id-yours.com/rahmani/lips-segmentation/-/blob/main/Generate-Tfrecord.pdf
+2. To create a dataset for Deeplab, you can refer to this SOP: [https://gitlab.id-yours.com/rahmani/lips-segmentation/-/blob/main/Generate-Tfrecord.pdf](https://github.com/RemainAplomb/ML-Tutorials/blob/main/Tensorflow/Deeplab/Generate-Tfrecord.pdf)
 
-3. To train a model using Tensorflow's deeplab, you can refer to this SOP: https://gitlab.id-yours.com/rahmani/lips-segmentation/-/blob/main/DeeplabTraining_SOP.pdf
+3. To train a model using Tensorflow's deeplab, you can refer to this SOP: [https://gitlab.id-yours.com/rahmani/lips-segmentation/-/blob/main/DeeplabTraining_SOP.pdf](https://github.com/RemainAplomb/ML-Tutorials/blob/main/Tensorflow/Deeplab/DeeplabTraining_SOP.pdf)
 
 ## Create a Dataset for Deeplab
 Creating a dataset for use with DeepLab can be a multi-step process. Here is a general outline of how to create a dataset for semantic image segmentation using DeepLab:
