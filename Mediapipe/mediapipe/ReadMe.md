@@ -451,3 +451,114 @@ absl::Status TflitePrintOutputTensorCalculator::Process(CalculatorContext* cc) {
 }  // namespace mediapipe
 
 ```
+
+# Converting to Wasm
+## Makefile
+Create a makefile so that the commands can be easily run. Here's an example of the content inside
+```
+# Gender and Landmarks Wasm
+
+build-gender-landmarks:
+	bazel build -c opt --copt -DMESA_EGL_NO_X11_HEADERS --copt -DEGL_NO_X11 --copt -O3 --copt -flto //projects/gender_landmarks:gender_landmark_solution_wasm_bin --config=wasm
+
+preload-gender-landmarks:	
+	python3 ~/Documents/emsdk/upstream/emscripten/tools/file_packager.py gender_landmarks/gender_landmarks_solution_packed_assets.data --preload /mnt/e/anaconda/sdk/mediapipe-main/mediapipe/models/gender_landmarks.tflite@//mediapipe/models/gender_landmarks.tflite --export-name=createMediapipeSolutionsPackedAssets
+```
+## Build
+To compile into wasm, use the shortened command from the makefile
+```
+make build-gender-landmarks
+```
+## Preload
+Preload the files that you need
+```
+make preload-gender-landmarks
+```
+
+# Running website
+## OpenSSL Linux
+### Update sudo
+```
+sudo apt-get update
+```
+### Get OpenSSL
+```
+sudo apt-get install openssl
+```
+### Create Certificate and Server key
+```
+openssl req -newkey rsa:2048 -nodes -keyout server.key -x509 -days 365 -out server.crt
+```
+## OpenSSL Windows
+### Install gsudo
+```
+choco install gsudo
+```
+### Get OpenSSL
+```
+gsudo apt-get install openssl
+```
+## Create Certificate and Server key
+Create certificate and server key (This might not be needed)
+```
+openssl req -newkey rsa:2048 -nodes -keyout server.key -x509 -days 365 -out server.crt
+```
+## Run Https Server
+```
+python3 -m http.server 8000 --bind localhost
+```
+## Navigate to the index.html
+In this case, it is located in "E:\Anaconda\sdk\mediapipe-main\face_mesh\dist\index.html". But it will cary depending on where you placed the repository.
+
+# Build the gender_landmarks_demo.js 
+## Install these
+### Typescript
+```
+npm install -g typescript
+```
+### Webpack
+```
+npm install -g webpack webpack-cli
+```
+### Babel
+```
+npm install babel-loader --save-dev
+```
+If you encounter issues, use 
+```
+npm audit fix
+```
+## Edit webpack.config.js
+```
+
+const path  = require('path')
+
+module.exports = {
+  mode: 'development',
+  entry: './gender_landmarks_demo.ts',
+  module: {
+      rules: [
+          {
+              test: /\.tsx?$/,
+              use: 'babel-loader',
+              exclude: /node_modules/,
+          }
+      ]
+  },
+  resolve: {
+      extensions: ['.tsx', '.ts', '.js'],
+  },
+  output: {
+    filename: 'gender_landmarks_demo.js',
+    path: path.resolve(__dirname, 'dist')
+  },
+  devServer: {
+    static: "./dist",
+  },
+}
+```
+## Build using the webpack
+```
+webpack
+```
+
